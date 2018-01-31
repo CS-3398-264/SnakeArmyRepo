@@ -4,7 +4,7 @@ for
 Chess Game
 Version 1.0 approved
 Prepared by Snake Army
-Texas State
+Texas State University
 1/28/18
  
 Table of Contents
@@ -54,50 +54,60 @@ Name	Date	Reason For Changes	Version
 1.	Introduction
 1.1	Purpose
 	The purpose of this project is to better understand how to use the Waterfall process by creating a Chess game as a team project. 
-	<Identify the product whose software requirements are specified in this document, including the revision or release number. Describe the scope of the product that is covered by this 	SRS, particularly if this SRS describes only part of the system or a single subsystem.>
+	<Identify the product whose software requirements are specified in this document, including the revision or release number. 
+	Describe the scope of the product that is covered by this SRS, particularly if this SRS describes only part of the system or a 		single subsystem.>
 
 
 
 1. The software shall have a user interface (ASCII text is fine, sprites, html images, etc.).
 	* To be discussed and determined as a team.
+	
 2. The software shall have at least ONE form of AI implementation.
 	* Discussion on expectation needed.
+	
 3. The software shall be user input driven.
 	* Discussion needed as this needs to be compatible with #1.
+	
 4. The software shall begin from the normal starting position.
 	* Default positions can be found here: http://www.chessvariants.com/d.chess/chess.html
 	* More specifics can be added to increase the document size.
 	* The game begins with the white pieces moving first and the black pieces second.
+	
 5. The software shall be able to allow only one move per turn.
+
 6. The software shall be able to determine a check mate and end the game.
-	* When a player is in check, and he cannot make a move such that after the move, the king is not in check, then he is†mated.
+	* When a player is in check, and he cannot make a move such that after the move, the king is not in check, then he is¬†mated.
+	
 7. Each piece shall move and attack only in their legal ways.
 	a) Rook
 		* The rook attacks in the same way it moves. 
 		* The rook moves in a straight line, horizontally or vertically. 
-		* The rook shall not jump over other pieces, that is: all squares between the square where the rook starts its move and where the rook ends its move must be empty. 
+		* The rook shall not jump over other pieces, that is: all squares between the square where the rook starts its move and 		  where the rook ends its move must be empty. 
 	b) Bishop	
 		* The bishop attacks in the same way it moves. 
 		* The bishop moves in a straight diagonal line. 
 		* The bishop shall also not jump over other pieces.
 	c) Queen	
 		* The queen attacks in the same way it moves.
-		* The queen has the†combined†moves of the rook and the bishop, i.e., the queen may move in any straight line, horizontal, vertical, or diagonal.
+		* The queen has the¬†combined¬†moves of the rook and the bishop, i.e., the queen may move in any straight line, 				  horizontal, vertical, or diagonal.
 		* The queen shall also not jump over other pieces.
 	d) Knight
-		* The knight makes a move that consists of first one step in a horizontal or vertical direction, and then one step diagonally in an outward direction. 
-		* The knight†jumps: it is allowed that the first square that the knight passes over is occupied by an arbitrary piece. For instance, white can start the game by moving his knight, jumping over a pawn. The piece that is jumped over is further not affected by the knight: as usual, a knight takes a piece of the opponent by moving to the square that contains that piece.
+		* The knight makes a move that consists of first one step in a horizontal or vertical direction, and then one step 			  diagonally in an outward direction. 
+		* The knight¬†jumps: it is allowed that the first square that the knight passes over is occupied by an arbitrary piece. 	  		    For instance, white can start the game by moving his knight, jumping over a pawn. The piece that is jumped over is 			  further not affected by the knight: as usual, a knight takes a piece of the opponent by moving to the square that 			  contains that piece.
 	e) Pawn
-		* When a pawn has not moved at all, the pawn may choose to move one square forward, or two squares forward. Otherwise it shall only move one square directly forward.
+		* When a pawn has not moved at all, the pawn may choose to move one square forward, or two squares forward. Otherwise it 		   shall only move one square directly forward.
 		* Pawns shall only attack diagonally forward.
 		* The pawn shall choose between attacking and moving.
 	f) King
 		* The king shall move one square in any direction, so long as it does not put him under attack.
-		* If the king has not moved, nor the rook, it shall have the opportunity to ìcastleî itself.
+		* If the king has not moved, nor the rook, it shall have the opportunity to ‚Äúcastle‚Äù itself.
 
 
 8. The square where any piece ends their move shall not contain a piece of the same color.
-9. All pieces, when the square where their attack ends contains a piece of the opponent, then the opponentís piece is taken. 
+
+9. All pieces, when the square where their attack ends contains a piece of the opponent, then the opponent‚Äôs piece is taken. 
 	* Taken pieces are removed from the board, and out of play for the rest of the game. (Taking is not compulsory.)
-10. Each piece shall move in a contained area (the board) and shall not move off the board under any circumstances (including claiming a piece of the opposite color).
+	
+10. Each piece shall move in a contained area (the board) and shall not move off the board under any circumstances (including claiming a     piece of the opposite color).
+
 11. Each turn (Excluding AI), the player(s) shall be granted an option of forfeiting the match if they wish to do so.

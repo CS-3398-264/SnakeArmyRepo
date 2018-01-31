@@ -73,13 +73,14 @@ Name	Date	Reason For Changes	Version
 
 1. The software shall have a user interface (ASCII text is fine, sprites, html images, etc.).
 	* To be discussed and determined as a team.
+		//Team discussion so far -> Java
 	
 2. The software shall have at least ONE form of AI implementation.
 	* Discussion on expectation needed.
-	
+		
 3. The software shall be user input driven.
 	* Discussion needed as this needs to be compatible with #1.
-	
+		
 4. The software shall begin from the normal starting position.
 	* Default positions can be found here: http://www.chessvariants.com/d.chess/chess.html
 	* More specifics can be added to increase the document size.
@@ -93,23 +94,29 @@ Name	Date	Reason For Changes	Version
 7. Each piece shall move and attack only in their legal ways.
 	a) Rook
 		* The rook attacks in the same way it moves. 
-		* The rook moves in a straight line, horizontally or vertically. 
+		* The rook moves in a straight line, horizontally or vertically in the + direction. 
 		* The rook shall not jump over other pieces, that is: all squares between the square where the rook starts its move and 		  where the rook ends its move must be empty. 
+		* Rooks shall be worth 5 points.
 	b) Bishop	
 		* The bishop attacks in the same way it moves. 
-		* The bishop moves in a straight diagonal line. 
+		* The bishop moves in a straight diagonal line, in the X direction. 
 		* The bishop shall also not jump over other pieces.
+		* The bishop shall be worth 3 points.
 	c) Queen	
 		* The queen attacks in the same way it moves.
 		* The queen has the combined moves of the rook and the bishop, i.e., the queen may move in any straight line, 				  horizontal, vertical, or diagonal.
 		* The queen shall also not jump over other pieces.
+		* The queen shall be worth 9 points. 
 	d) Knight
 		* The knight makes a move that consists of first one step in a horizontal or vertical direction, and then one step 			  diagonally in an outward direction. 
 		* The knight jumps: it is allowed that the first square that the knight passes over is occupied by an arbitrary piece. 	  		    For instance, white can start the game by moving his knight, jumping over a pawn. The piece that is jumped over is 			  further not affected by the knight: as usual, a knight takes a piece of the opponent by moving to the square that 			  contains that piece.
+		* Knights shall be worth 3 points.
 	e) Pawn
 		* When a pawn has not moved at all, the pawn may choose to move one square forward, or two squares forward. Otherwise it 		   shall only move one square directly forward.
 		* Pawns shall only attack diagonally forward.
 		* The pawn shall choose between attacking and moving.
+		* If a pawn makes it to the oposing side of the chess board.....(confused on how pawns are promoted...choice or ? )
+		* Pawns shall be worth 1 point. 
 	f) King
 		* The king shall move one square in any direction, so long as it does not put him under attack.
 		* If the king has not moved, nor the rook, it shall have the opportunity to “castle” itself.
@@ -119,7 +126,14 @@ Name	Date	Reason For Changes	Version
 
 9. All pieces, when the square where their attack ends contains a piece of the opponent, then the opponent’s piece is taken. 
 	* Taken pieces are removed from the board, and out of play for the rest of the game. (Taking is not compulsory.)
+	* Pieces that are captured shall be visible in a display on the right side of the game board. 
 	
 10. Each piece shall move in a contained area (the board) and shall not move off the board under any circumstances (including claiming a     piece of the opposite color).
 
 11. Each turn (Excluding AI), the player(s) shall be granted an option of forfeiting the match if they wish to do so.
+
+12. Each time a player (Including AI) moves a piece, the game shall not allow the oposing player to make a move until the previous 	 piece is moved on the board.
+
+13. The spaces on the chess board shall be labeled on an XY axis. 
+	* The Y axis shall be labeled 1-8 starting from the origin.
+	* The X axis shall be labeled a-h starting from the origin.

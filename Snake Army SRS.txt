@@ -68,6 +68,7 @@ Name	Date	Reason For Changes	Version
 	<Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and 		goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, 		refer to it rather than duplicating its contents here.>
 
 1.5	References
+	http://www.chessvariants.com/d.chess/chess.html
 	<List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, 		standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so 	 that the reader could access a copy of each reference, including title, author, version number, date, and source or location.>
 
 
@@ -115,7 +116,7 @@ Name	Date	Reason For Changes	Version
 		* When a pawn has not moved at all, the pawn may choose to move one square forward, or two squares forward. Otherwise it 		   shall only move one square directly forward.
 		* Pawns shall only attack diagonally forward.
 		* The pawn shall choose between attacking and moving.
-		* If a pawn makes it to the oposing side of the chess board.....(confused on how pawns are promoted...choice or ? )
+		* If a pawn makes it to the opposing side of the chess board, it shall be promoted to any piece of choice.
 		* Pawns shall be worth 1 point. 
 	f) King
 		* The king shall move one square in any direction, so long as it does not put him under attack.
@@ -132,8 +133,8 @@ Name	Date	Reason For Changes	Version
 
 11. Each turn (Excluding AI), the player(s) shall be granted an option of forfeiting the match if they wish to do so.
 
-12. Each time a player (Including AI) moves a piece, the game shall not allow the oposing player to make a move until the previous 	 piece is moved on the board.
+12. Each time a player (Including AI) moves a piece, the game shall not allow the opposing player to make a move until the previous 	     piece is moved on the board.
 
-13. The spaces on the chess board shall be labeled on an XY axis. 
+13. The spaces on the chess board shall be labeled on an XY axis where the origin begins at the bottom-left corner. 
 	* The Y axis shall be labeled 1-8 starting from the origin.
 	* The X axis shall be labeled a-h starting from the origin.

@@ -157,7 +157,7 @@ Name	Date	Reason For Changes	Version
 			* Pawns shall be worth 1 point.
 		f) King
 			* The king shall move one square in any direction, so long as it does not put him under attack.
-			* If the king has not moved, nor the rook, it shall have the opportunity to “castle” itself.
+			* If the king has not moved, the rook has not moved, the space between the king and the rook cointains no other                           pieces, and the king is not in check nor is it moving into check, the king shall have the opportunity to                                 “castle” itself. Which lets the king move two spaces towards the selected rook, and moves the rook to the                               square over which the king crossed 
 
 
 	8. The square where any piece ends their move shall not contain a piece of the same color.

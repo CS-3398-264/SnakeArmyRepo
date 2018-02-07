@@ -109,7 +109,6 @@ Name	Date	Reason For Changes	Version
 3.2	Functional Requirements
 
 	1. The software shall have a user interface (ASCII text is fine, sprites, html images, etc.).
-		* To be discussed and determined as a team.
 
 	2. The software shall have at least ONE form of AI implementation.
 		* At bare minimum, AI will make intelligent decisions, knowing when it's at risk of losing valuable pieces.
@@ -118,9 +117,10 @@ Name	Date	Reason For Changes	Version
 		* Attack King when given an opportunity.
 		
 	3. The software shall be user input driven.
-		* Mouse is required. Click a piece, and click where to go, as long as it is a legal move.
+		* Click a piece, and click where to go, as long as it is a legal move.
 
-	4. The software shall begin from the normal starting position.
+	4. The software shall begin from a main menu.
+		* The user will choose number of players (0-2). 
 		* Default positions can be found here: http://www.chessvariants.com/d.chess/chess.html
 		* More specifics can be added to increase the document size.
 		* The game begins with the white pieces moving first and the black pieces second.

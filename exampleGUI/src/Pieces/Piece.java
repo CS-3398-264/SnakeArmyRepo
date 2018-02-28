@@ -37,17 +37,11 @@ public class Piece {
 	public String getImageName() {
 		return imageName;
 	}
-	public void setEmpty() {
-		this.aliance = -1;
-		this.name = null;
-		this.imageName = null;
-		this.location = -1;		
-	}
-	public void setTo(Piece q) {
-		setAlly(q.getAlly());
-		setName(q.getName());
-		moveLocation(q.getLocation());
-		setImageName(q.getImageName());
+	
+
+	public boolean validMove(int selected, int tileID) {
+		// TODO Auto-generated method stub
+		return false;
 	}
     
 }

@@ -28,6 +28,9 @@ public class Pawn extends Piece{
 			else if(product == -16 && hasMoved == false) {
 				valid = true;
 			}
+			/*PSEUDOCODE-ISH - when trying to eat an opponent with pawn
+			 * else if ((product == -7 || product == -9) && the space in product -7 or -9 is occuppied by getAlly() == 1) // so you eat it
+			 *	valid = true; */
 		}
 		else if(this.getAlly()==1) {
 			int product = end-start;
@@ -37,6 +40,9 @@ public class Pawn extends Piece{
 			else if(product == 16 && hasMoved == false) {
 				valid = true;
 			}
+			/*PSEUDOCODE-ISH - when trying to eat an opponent with pawn
+			 * else if ((product == 7 || product == 9) && the space in product 7 or 9 is occuppied by getAlly() == 0) // so you eat it
+			 *	valid = true; */
 		}
 		hasMoved = true;
 		return valid;

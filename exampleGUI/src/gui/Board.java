@@ -123,8 +123,10 @@ private class TilePanel extends JPanel{
 				 //deselect when moved to same spot
 				 Board.selected = -1;
 			 }
-			 else if(newGame.p[tileID].getAlly() == newGame.p[Board.selected].getAlly())
+			  else if(newGame.p[tileID].getAlly() == newGame.p[Board.selected].getAlly()) {
 				 System.out.println("cant take own piece");
+				 Board.selected = -1;
+			 }
 			 else if ((Board.selected!=-1 && newGame.p[tileID].getName()!=null 
 					 && newGame.p[Board.selected].validMove(Board.selected, tileID) == true)) {
 				 //take piece 
@@ -137,11 +139,14 @@ private class TilePanel extends JPanel{
 				 newGame.turnUp();
 				 Board.selected = -1;
 				 graveCount++;
+				 newGame.p[tileID].hasMoved = true;
 			 }
+			  
 			 else{
 		 
 				 if (newGame.p[Board.selected].validMove(Board.selected, tileID) == false) {
-					 //invalid move do nothing
+					 //invalid move deselect piece
+					 Board.selected = -1;
 				 }
 				 else {
 				   //move to empty 
@@ -151,6 +156,7 @@ private class TilePanel extends JPanel{
 				   Board.selected = -1;
 				   newGame.changeTurn();
 				   newGame.turnUp();
+				   newGame.p[tileID].hasMoved = true;
 				 }
 				 
 			 }
@@ -195,7 +201,8 @@ private class TilePanel extends JPanel{
 	}
 	private void highlightTile(int selected) {
 		for(int i = 0; i<64; i++) {
-			if(newGame.p[selected].validMove(selected, i) == true) {
+			if(newGame.p[selected].validMove(selected, i) == true && (newGame.p[i].getAlly()==-1 
+					|| newGame.p[selected].getAlly() != newGame.p[i].getAlly())) {
 			   highlighted[i] = true;
 			}
 	    }

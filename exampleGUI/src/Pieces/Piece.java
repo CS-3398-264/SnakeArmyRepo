@@ -5,6 +5,7 @@ public class Piece {
 	private String name;
 	private int aliance; 
 	private int location; 
+	public boolean hasMoved;
 	
 	public Piece() {
 		this.aliance = -1;

@@ -2,7 +2,7 @@ package Pieces;
 
 public class Pawn extends Piece{
 	
-	boolean hasMoved;
+	private boolean valid = false;
 	
 	public Pawn(int ally) {
 		hasMoved = false;
@@ -19,7 +19,8 @@ public class Pawn extends Piece{
 	}
 	
 	public boolean validMove(int start, int end) {
-		boolean valid = false;
+		
+		valid = false;
 		if(this.getAlly()==0) {
 			int product = end-start;
 			if(product == -8) {

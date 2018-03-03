@@ -103,7 +103,7 @@ private class TilePanel extends JPanel{
 	  assignTileColor();
 	  assignTileSprite();
 	  
-	  addMouseListener(new MouseAdapter() {
+addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
 			  
@@ -119,11 +119,11 @@ private class TilePanel extends JPanel{
 			 }
 			 
 			
-			 else if(newGame.p[tileID].getLocation()==tileID) {
-				 //deselect when moved to same spot
+			 else if(Board.selected == tileID || availableMove(Board.selected, tileID) == false) {
+				 //deselect when moved to same spot or invalid move;
 				 Board.selected = -1;
 			 }
-			  else if(newGame.p[tileID].getAlly() == newGame.p[Board.selected].getAlly()) {
+			 else if(newGame.p[tileID].getAlly() == newGame.p[Board.selected].getAlly()) {
 				 System.out.println("cant take own piece");
 				 Board.selected = -1;
 			 }
@@ -141,7 +141,7 @@ private class TilePanel extends JPanel{
 				 graveCount++;
 				 newGame.p[tileID].hasMoved = true;
 			 }
-			  
+			 
 			 else{
 		 
 				 if (newGame.p[Board.selected].validMove(Board.selected, tileID) == false) {

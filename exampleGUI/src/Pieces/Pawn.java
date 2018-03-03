@@ -22,31 +22,33 @@ public class Pawn extends Piece{
 	public boolean validMove(int start, int end) {
 		
 		valid = false;
+		int product = end-start;
 		if(this.getAlly()==0) {
-			int product = end-start;
 			if(product == -8) {
 				valid = true;
 			}
-			else if(product == -16 && hasMoved == false) {
+		//double jump	
+		   else if(product == -16 && hasMoved == false) {
 				valid = true;
 			}
-			/*PSEUDOCODE-ISH - when trying to eat an opponent with pawn
-			 * else if ((product == -7 || product == -9) && the space in product -7 or -9 is occuppied by getAlly() == 1) // so you eat it
-			 *	valid = true; */
+	        //taking
+		   else if(product == -7 || product == -9) {
+			    valid = true;
+		}
 		}
 		else if(this.getAlly()==1) {
-			int product = end-start;
 			if(product == 8) {
 				valid = true;
 			}
 			else if(product == 16 && hasMoved == false) {
 				valid = true;
 			}
-			/*PSEUDOCODE-ISH - when trying to eat an opponent with pawn
-			 * else if ((product == 7 || product == 9) && the space in product 7 or 9 is occuppied by getAlly() == 0) // so you eat it
-			 *	valid = true; */
+			//taking
+			else if(product == 7 || product == 9) {
+				valid = true;
+			}
 		}
-		hasMoved = true;
+
 		return valid;
     }
 

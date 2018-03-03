@@ -208,6 +208,80 @@ private class TilePanel extends JPanel{
 	    }
 	}
 		
+	//checks if there is a piece in the way of current move
+	private boolean availableMove(int start, int end) {
+		int product = end - start;
+		if(newGame.p[start].getPieceType() == "Pawn" || newGame.p[start].getPieceType() == "King"
+				|| newGame.p[start].getPieceType() == "Knight") {
+			return true;
+		}
+		//horizontal
+		else if(end/8 == start/8) {
+			int firstinRow = (start/8)*8;
+			int left = firstinRow;
+			int right = firstinRow+7;
+			for(int i = 0; i<8; i++) {
+				if(newGame.p[i+firstinRow].getAlly() != -1 && (i+firstinRow)>left && (i+firstinRow)<start)
+					left = (i+firstinRow);
+				if(newGame.p[i+firstinRow].getAlly() != -1 && (i+firstinRow)<right && (i+firstinRow)>start)
+					right = (i+firstinRow);
+			}
+			if( end >right || end <left)
+				return false;
+		}
+		//vertical
+		else if(product%8 == 0) {
+			int firstinColumn = start%8;
+			int up = firstinColumn;
+			int down = firstinColumn+56;
+			for (int i = firstinColumn; i<=(firstinColumn+56); i=i+8) {
+				if(newGame.p[i].getAlly() != -1 && (i) > up && i < start)
+					up = i;
+				if(newGame.p[i].getAlly() != -1 && (i) < down && i > start)
+					down = i;
+				if(end>down || end<up)
+					return false;
+			}
+		}
+		//diagonal
+		else {
+			int downRight = 63;
+			int downLeft = 63;
+			int upRight = 0;
+			int upLeft = 0;
+			int diagLStart = start;
+			int diagRStart = start;
+			while(diagLStart%8 != 0 && diagLStart>0) {
+				diagLStart = diagLStart-7;
+			}
+			diagLStart = diagLStart + 7;
+			while(diagRStart%8 != 7 && diagRStart>0) {
+				diagRStart = diagRStart-9;
+			}
+			diagRStart = diagRStart+9;
+			System.out.println(diagRStart);
+			for(int i = diagRStart; i<63; i=i+9) {
+				if(newGame.p[i].getAlly() != -1 && i>upLeft && i < start)
+					upLeft = i;
+				if(newGame.p[i].getAlly() != -1 && i<downRight && i > start)
+					downRight = i;
+			}
+			for(int i = diagLStart; i<63; i=i+7) {
+				if(newGame.p[i].getAlly() != -1 && i > upRight && i < start)
+					upRight = i;
+				if(newGame.p[i].getAlly() != -1 && i < downLeft && i > start)
+					downLeft = i;
+			}
+			System.out.println(downRight+" "+downLeft+" "+upRight+" "+upLeft);
+			if(product%7 == 0 &&(end > downLeft || end < upRight))
+				return false;
+			else if(product%9 == 0 &&(end > downRight || end < upLeft))
+				return false;
+
+		}
+		return true ;
+	}
+		
   }
 	
 }

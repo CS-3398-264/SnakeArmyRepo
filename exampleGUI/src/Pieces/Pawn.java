@@ -5,6 +5,7 @@ public class Pawn extends Piece{
 	private boolean valid = false;
 	
 	public Pawn(int ally) {
+		setPieceType("Pawn")
 		hasMoved = false;
 		if(ally == 0) {
 			setAlly(0);

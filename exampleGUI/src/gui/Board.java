@@ -211,7 +211,24 @@ addMouseListener(new MouseAdapter() {
 	//checks if there is a piece in the way of current move
 	private boolean availableMove(int start, int end) {
 		int product = end - start;
-		if(newGame.p[start].getPieceType() == "Pawn" || newGame.p[start].getPieceType() == "King"
+		
+		if(newGame.p[start].getImageName() == "WPawn"){
+			if((product == -7|| product == -9) && newGame.p[end].getAlly()!=1)
+				return false;
+			else if(product == -8 && newGame.p[end].getAlly()==1)
+				return false;
+			else 
+				return true;
+		}
+		else if(newGame.p[start].getImageName() == "BPawn"){
+			if((product == 7|| product == 9) && newGame.p[end].getAlly()!=0)
+				return false;
+			else if(product == 8 && newGame.p[end].getAlly()==0)
+				return false;
+			else 
+				return true;
+		}
+		else if(newGame.p[start].getPieceType() == "King"
 				|| newGame.p[start].getPieceType() == "Knight") {
 			return true;
 		}

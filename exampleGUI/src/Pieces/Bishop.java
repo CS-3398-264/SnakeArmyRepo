@@ -3,6 +3,7 @@ package Pieces;
 public class Bishop extends Piece{
 	
 	public Bishop(int ally) {
+		setPieceType("Bishop");
 		if (ally == 0) {
 		    setAlly(0);
 		    setName("White Bishop");

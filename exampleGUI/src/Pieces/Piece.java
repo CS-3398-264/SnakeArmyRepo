@@ -4,22 +4,15 @@ public class Piece {
 	private String imageName;
 	private String name;
 	private int aliance; 
-	private int location; 
 	public boolean hasMoved;
+	private String pieceType;
 	
 	public Piece() {
 		this.aliance = -1;
 		this.name = null;
 		this.imageName = null;
-		this.location = -1;
 	}
-	
-	public void moveLocation(int tileID) {
-		this.location = tileID;
-	}
-	public int getLocation() {
-		return location; 
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -43,6 +36,14 @@ public class Piece {
 	public boolean validMove(int selected, int tileID) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public String getPieceType() {
+		return pieceType;
+	}
+
+	public void setPieceType(String pieceType) {
+		this.pieceType = pieceType;
 	}
     
 }

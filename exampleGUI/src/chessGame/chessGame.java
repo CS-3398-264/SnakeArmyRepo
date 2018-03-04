@@ -16,7 +16,8 @@ public class chessGame {
 	public Piece[] p = new Piece[64];
 	public Piece[] grave = new Piece[32];
 	public Piece holder = new Piece();
-	
+	public int inCheck = -1;
+	public Piece[]checkHolder = new Piece[64];
 	
 	public chessGame(){
 		

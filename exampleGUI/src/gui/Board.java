@@ -103,7 +103,7 @@ private class TilePanel extends JPanel{
 	  assignTileColor();
 	  assignTileSprite();
 	  
-addMouseListener(new MouseAdapter() {
+	  addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
 			  
@@ -117,48 +117,73 @@ addMouseListener(new MouseAdapter() {
 				 else 
 					 Board.selected = -1;
 			 }
-			 
 			
-			 else if(Board.selected == tileID || availableMove(Board.selected, tileID) == false) {
+			 else if(Board.selected == tileID || availableMove(Board.selected, tileID) == false ) {
 				 //deselect when moved to same spot or invalid move;
 				 Board.selected = -1;
 			 }
+			 //Cant move to own piece excluding castling;
 			 else if(newGame.p[tileID].getAlly() == newGame.p[Board.selected].getAlly()) {
 				 System.out.println("cant take own piece");
 				 Board.selected = -1;
 			 }
+			 //in check move
 			 else if ((Board.selected!=-1 && newGame.p[tileID].getName()!=null 
 					 && newGame.p[Board.selected].validMove(Board.selected, tileID) == true)) {
 				 //take piece 
-				 grave.graveYardAdd(newGame.p[tileID].getName());
-				 newGame.holder = newGame.grave[graveCount];
-				 newGame.grave[graveCount] = newGame.p[Board.selected];
-				 newGame.p[tileID] = newGame.grave[graveCount];
-				 newGame.p[Board.selected] = newGame.holder;
-				 newGame.changeTurn();
-				 newGame.turnUp();
-				 Board.selected = -1;
-				 graveCount++;
-				 newGame.p[tileID].hasMoved = true;
+
+				for(int i = 0; i < 64; i++) {
+					  newGame.checkHolder[i] = newGame.p[i];
+					}
+				  newGame.holder = newGame.p[Board.selected];
+				  newGame.p[Board.selected] = newGame.p[tileID];
+				  newGame.p[tileID] = newGame.holder;
+				  //piece is moving into check
+				  if(checkForCheck()==newGame.turn) {
+						newGame.p[Board.selected] = newGame.checkHolder[Board.selected];
+						newGame.p[tileID] = newGame.checkHolder[tileID];
+						Board.selected = -1;
+					}
+				 //piece is not moving into check
+				 else {
+				        grave.graveYardAdd(newGame.p[tileID].getName());
+				        newGame.holder = newGame.grave[graveCount];
+				        newGame.grave[graveCount] = newGame.p[Board.selected];
+				        newGame.p[tileID] = newGame.grave[graveCount];
+				        newGame.p[Board.selected] = newGame.holder;
+				        newGame.changeTurn();
+				        newGame.turnUp();
+				 	    Board.selected = -1;
+				 	    graveCount++;
+				 	    newGame.p[tileID].hasMoved = true;
+				 	    newGame.inCheck = checkForCheck();
+				 }
 			 }
 			 
 			 else{
-		 
 				 if (newGame.p[Board.selected].validMove(Board.selected, tileID) == false) {
 					 //invalid move deselect piece
 					 Board.selected = -1;
 				 }
 				 else {
-				   //move to empty 
-				   newGame.holder = newGame.p[Board.selected];
-				   newGame.p[Board.selected] = newGame.p[tileID];
-				   newGame.p[tileID] = newGame.holder;
-				   Board.selected = -1;
-				   newGame.changeTurn();
-				   newGame.turnUp();
-				   newGame.p[tileID].hasMoved = true;
+				   for(int i = 0; i < 64; i++) {
+					   newGame.checkHolder[i] = newGame.p[i];
+					}
+					newGame.holder = newGame.p[Board.selected];
+					newGame.p[Board.selected] = newGame.p[tileID];
+					newGame.p[tileID] = newGame.holder;
+					if(checkForCheck()==newGame.turn) {
+						newGame.p[Board.selected] = newGame.checkHolder[Board.selected];
+						newGame.p[tileID] = newGame.checkHolder[tileID];
+						Board.selected = -1;
+					}
+					else {
+					    Board.selected = -1;
+						newGame.inCheck = -1;
+						newGame.changeTurn();
+						newGame.p[tileID].hasMoved = true;
+					}
 				 }
-				 
 			 }
 			 SwingUtilities.invokeLater(new Runnable() {
 				 @Override
@@ -200,14 +225,15 @@ addMouseListener(new MouseAdapter() {
 	
 	}
 	private void highlightTile(int selected) {
+		
 		for(int i = 0; i<64; i++) {
 			if(newGame.p[selected].validMove(selected, i) == true && (newGame.p[i].getAlly()==-1 
-					|| newGame.p[selected].getAlly() != newGame.p[i].getAlly())) {
+					|| newGame.p[selected].getAlly() != newGame.p[i].getAlly()) && availableMove(selected, i) == true) {
 			   highlighted[i] = true;
 			}
 	    }
 	}
-		
+	
 	//checks if there is a piece in the way of current move
 	private boolean availableMove(int start, int end) {
 		int product = end - start;
@@ -217,6 +243,8 @@ addMouseListener(new MouseAdapter() {
 				return false;
 			else if(product == -8 && newGame.p[end].getAlly()==1)
 				return false;
+			else if(product == -16 && newGame.p[end].getAlly()==1)
+				return false;
 			else 
 				return true;
 		}
@@ -225,11 +253,13 @@ addMouseListener(new MouseAdapter() {
 				return false;
 			else if(product == 8 && newGame.p[end].getAlly()==0)
 				return false;
+			else if(product == 16 && newGame.p[end].getAlly()==0)
+				return false;
 			else 
 				return true;
 		}
-		else if(newGame.p[start].getPieceType() == "King"
-				|| newGame.p[start].getPieceType() == "Knight") {
+
+		else if((newGame.p[start].getPieceType() == "King"|| newGame.p[start].getPieceType() == "Knight")) {
 			return true;
 		}
 		//horizontal
@@ -268,15 +298,17 @@ addMouseListener(new MouseAdapter() {
 			int upLeft = 0;
 			int diagLStart = start;
 			int diagRStart = start;
+			
 			while(diagLStart%8 != 0 && diagLStart>0) {
 				diagLStart = diagLStart-7;
 			}
 			diagLStart = diagLStart + 7;
+			
 			while(diagRStart%8 != 7 && diagRStart>0) {
 				diagRStart = diagRStart-9;
 			}
 			diagRStart = diagRStart+9;
-			System.out.println(diagRStart);
+			
 			for(int i = diagRStart; i<63; i=i+9) {
 				if(newGame.p[i].getAlly() != -1 && i>upLeft && i < start)
 					upLeft = i;
@@ -289,14 +321,51 @@ addMouseListener(new MouseAdapter() {
 				if(newGame.p[i].getAlly() != -1 && i < downLeft && i > start)
 					downLeft = i;
 			}
-			System.out.println(downRight+" "+downLeft+" "+upRight+" "+upLeft);
 			if(product%7 == 0 &&(end > downLeft || end < upRight))
 				return false;
 			else if(product%9 == 0 &&(end > downRight || end < upLeft))
 				return false;
 
 		}
-		return true ;
+		return true;
+	}
+	
+	//returns the team that is in check...-1 being null team
+	private int checkForCheck() {
+		int foundB = -1; 
+		int foundW = -1;
+		int i = 0;
+		int k = 0;
+		while(foundB==-1) {
+			if( newGame.p[i].getImageName()=="BKing") {
+				foundB = i;
+			}
+			else 
+				i++;
+		}
+		while(foundW==-1) {
+			if( newGame.p[k].getImageName() == "WKing") {
+				foundW = k;
+			}
+			else 
+				k++;
+		}
+        for(int j = 0; j<64; j++) {
+        	if(availableMove(j, foundB) && newGame.p[j].validMove(j, foundB) && j!=foundB 
+        			&& newGame.p[j].getAlly() !=1) {
+        		System.out.println("Black is in check");
+        		newGame.inCheck = 1;
+        		return 1;
+        	}
+        	if(availableMove(j, foundW) && newGame.p[j].validMove(j, foundW) && j!=foundW 
+        			&& newGame.p[j].getAlly() !=0) {
+        		System.out.println("White is in check");
+        		newGame.inCheck = 0;
+        		return 0;
+           }
+        }
+        
+		return -1;		
 	}
 		
   }

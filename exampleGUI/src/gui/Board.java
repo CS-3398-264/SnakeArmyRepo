@@ -146,17 +146,18 @@ private class TilePanel extends JPanel{
 					}
 				 //piece is not moving into check
 				 else {
-				        grave.graveYardAdd(newGame.p[tileID].getName());
+				        grave.graveYardAdd(newGame.p[Board.selected].getName());
 				        newGame.holder = newGame.grave[graveCount];
-				        newGame.grave[graveCount] = newGame.p[Board.selected];
-				        newGame.p[tileID] = newGame.grave[graveCount];
+				        newGame.grave[graveCount] = newGame.p[tileID];
+				        newGame.p[Board.selected] = newGame.grave[graveCount];
+				        newGame.p[tileID] = newGame.p[Board.selected];
 				        newGame.p[Board.selected] = newGame.holder;
 				        newGame.changeTurn();
 				        newGame.turnUp();
-				 	    Board.selected = -1;
-				 	    graveCount++;
-				 	    newGame.p[tileID].hasMoved = true;
-				 	    newGame.inCheck = checkForCheck();
+				 	Board.selected = -1;
+				 	graveCount++;
+				 	newGame.p[tileID].hasMoved = true;
+				 	newGame.inCheck = checkForCheck();
 				 }
 			 }
 			 

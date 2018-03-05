@@ -1,7 +1,8 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import chessGame.chessGame;
 
@@ -36,6 +37,7 @@ public class Board {
 	private final SurrenderPanel surrender;
 	public int graveCount = 0;
 	public boolean[] highlighted = new boolean[64];
+	public static int turnTime = 0;
 
 	
 	private final static Dimension BOARD_PANEL = new Dimension(80, 80);
@@ -78,8 +80,18 @@ private class SurrenderPanel extends JPanel{
 		});
 		this.add(btnRest);
 		//timer label
-		JLabel timer = new JLabel("Current turn time in seconds: ");
-		this.add(timer);
+		JLabel time = new JLabel("Current turn time in seconds: "+Board.turnTime);
+		this.add(time);
+		Timer timer = new Timer();
+       	TimerTask myTask = new TimerTask() {
+       		@Override
+       		public void run() {
+       		   Board.turnTime++;
+       		   time.setText("Current turn time in seconds: "+Board.turnTime);
+       	   }
+       		
+       	};
+       	timer.schedule(myTask, 1000, 1000);
 	}
 }
 	
@@ -190,6 +202,7 @@ private class TilePanel extends JPanel{
 				 	    graveCount++;
 				 	    newGame.p[tileID].hasMoved = true;
 				 	    newGame.inCheck = checkForCheck();
+				 	    Board.turnTime = 0;
 				 }
 			 }
 			 
@@ -219,6 +232,7 @@ private class TilePanel extends JPanel{
 						newGame.inCheck = -1;
 						newGame.changeTurn();
 						newGame.p[tileID].hasMoved = true;
+						Board.turnTime = 0;
 					}
 				 }
 			 }

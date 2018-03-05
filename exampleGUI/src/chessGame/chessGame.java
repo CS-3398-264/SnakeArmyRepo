@@ -77,4 +77,14 @@ public class chessGame {
   public void turnUp() {
 	  turnNumber++;
   }
+  public void gameOver() {
+    String winner;
+    if(turn != 1) 
+	  winner = "Black";
+    else
+	  winner = "White";
+    System.out.println("Game over "+winner+" wins");
+    JOptionPane.showMessageDialog(null, "Game over "+winner+" wins");
+    System.exit(0);
+  }
 }

@@ -150,7 +150,12 @@ private class TilePanel extends JPanel{
 	  addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
-			 if (Board.selected==-1) {
+			 if(newGame.turn == 1) {
+				 aiCheckForMoves();
+				 newGame.changeTurn();
+				 newGame.turnUp();
+			 }
+			 else if (Board.selected==-1) {
 				 //piece select
 				 if(newGame.p[tileID].getName() != null && 
 						 newGame.p[tileID].getAlly() == newGame.turn) {
@@ -290,7 +295,7 @@ private class TilePanel extends JPanel{
 	
 	//checks if there is a piece in the way of current move
 	private boolean availableMove(int start, int end) {
-		int product = end - start;
+		int product = end - start;	
 		
 		if(newGame.p[start].getImageName() == "WPawn"){
 			if((product == -7|| product == -9) && newGame.p[end].getAlly()!=1)
@@ -362,7 +367,6 @@ private class TilePanel extends JPanel{
 				diagRStart = diagRStart-9;
 			}
 			diagRStart = diagRStart+9;
-			
 			for(int i = diagRStart; i<63; i=i+9) {
 				if(newGame.p[i].getAlly() != -1 && i>upLeft && i < start)
 					upLeft = i;
@@ -450,6 +454,31 @@ private class TilePanel extends JPanel{
 			boardPanel.drawBoard(newGame);
 			newGame.gameOver();
 		}
-	}		
+	}
+	private boolean aiCheckForMoves() {
+		for(int p = 0; p<64; p++) {
+			
+			for(int j = 0; j<64; j++) {
+				newGame.holder = newGame.p[j];
+			    newGame.p[j] = newGame.p[p];
+			    newGame.p[p]= newGame.holder;
+			    
+				if(availableMove(p, j) == true && newGame.p[p].validMove(p, j) == true 
+						&& newGame.p[p].getAlly() == newGame.turn && newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
+				   
+				   if(checkForCheck()==-1) {
+				    return true;
+				    
+				   }
+				  
+			    }
+				newGame.p[j]= newGame.checkHolder[j];				
+				newGame.p[p]= newGame.checkHolder[p];
+
+			}
+		}
+       return false;
+		
+	}
   }	
 }

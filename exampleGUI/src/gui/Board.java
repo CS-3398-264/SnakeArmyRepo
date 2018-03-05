@@ -7,7 +7,6 @@ import java.util.TimerTask;
 import chessGame.chessGame;
 
 import java.awt.*;
-import sprites.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 
 public class Board {
 	
@@ -56,8 +54,8 @@ public class Board {
 		this.gameFrame.add(this.grave, BorderLayout.WEST);
 		this.gameFrame.add(this.surrender, BorderLayout.SOUTH);
 		this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
-		this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.gameFrame.setVisible(true);
+		this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 private class SurrenderPanel extends JPanel{
@@ -76,6 +74,7 @@ private class SurrenderPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				newGame = new chessGame();
 				boardPanel.drawBoard(newGame);
+				Board.turnTime = 0;
 			}
 		});
 		this.add(btnRest);
@@ -102,6 +101,7 @@ private class GravePanel extends JPanel{
 	  this.add(tittle);
 	}
 	void graveYardAdd(String piece){
+		System.out.println(piece);
 	  String description = (piece);
       JLabel add = new JLabel(description);
       this.add(add);
@@ -150,7 +150,6 @@ private class TilePanel extends JPanel{
 	  addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
-			  
 			 if (Board.selected==-1) {
 				 //piece select
 				 if(newGame.p[tileID].getName() != null && 
@@ -190,7 +189,8 @@ private class TilePanel extends JPanel{
 					}
 				 //piece is not moving into check
 				 else {
-				        grave.graveYardAdd(newGame.p[Board.selected].getName());
+					     
+				        grave.graveYardAdd(newGame.checkHolder[tileID].getName());
 				        newGame.holder = newGame.grave[graveCount];
 				        newGame.grave[graveCount] = newGame.p[tileID];
 				        newGame.p[Board.selected] = newGame.grave[graveCount];
@@ -260,8 +260,9 @@ private class TilePanel extends JPanel{
 	
 	private void assignTileSprite() {
 		JLabel sprite = new JLabel();
-		String img = ("sprites\\"+newGame.p[this.tileID].getImageName()+".png");
-		sprite.setIcon(new ImageIcon(img));
+		String img = ("/img/"+newGame.p[this.tileID].getImageName()+".png");
+		if(newGame.p[this.tileID].getImageName()!=null)
+		   sprite.setIcon(new ImageIcon(getClass().getResource(img)));
 		add(sprite);
 		validate();
 	}
@@ -446,6 +447,7 @@ private class TilePanel extends JPanel{
 		}
 
 		if(availableMoves == 0 ) {
+			boardPanel.drawBoard(newGame);
 			newGame.gameOver();
 		}
 	}		

@@ -353,12 +353,12 @@ private class TilePanel extends JPanel{
 			int diagLStart = start;
 			int diagRStart = start;
 			
-			while(diagLStart%8 != 0 && diagLStart>0) {
+			while(diagLStart%8 != 7 && diagLStart>0) {
 				diagLStart = diagLStart-7;
 			}
 			diagLStart = diagLStart + 7;
 			
-			while(diagRStart%8 != 7 && diagRStart>0) {
+			while(diagRStart%8 != 0 && diagRStart>0) {
 				diagRStart = diagRStart-9;
 			}
 			diagRStart = diagRStart+9;

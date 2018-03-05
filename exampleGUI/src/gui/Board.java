@@ -1,10 +1,12 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 import chessGame.chessGame;
 
 import java.awt.*;
+import sprites.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,8 +33,10 @@ public class Board {
 	private final JFrame gameFrame;
 	private final BoardPanel boardPanel;
 	private final GravePanel grave; 
+	private final SurrenderPanel surrender;
 	public int graveCount = 0;
 	public boolean[] highlighted = new boolean[64];
+
 	
 	private final static Dimension BOARD_PANEL = new Dimension(80, 80);
 	private final static Dimension TILE_PANEL = new Dimension(20, 20);
@@ -40,16 +44,44 @@ public class Board {
 	public Board() {
 		this.gameFrame = new JFrame("Chess");
 		this.gameFrame.setLayout(new BorderLayout());
-		this.gameFrame.setSize(800, 800);
+		this.gameFrame.setSize(1000, 1000);
 		this.grave = new GravePanel();
+		this.surrender = new SurrenderPanel();
+		this.surrender.setSize(400,400);
 		this.boardPanel = new BoardPanel(grave);
 		this.grave.setLayout(new BoxLayout(grave, BoxLayout.Y_AXIS));
+		this.surrender.setLayout(new BoxLayout(surrender, BoxLayout.Y_AXIS));
 		this.gameFrame.add(this.grave, BorderLayout.WEST);
+		this.gameFrame.add(this.surrender, BorderLayout.SOUTH);
 		this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 		this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.gameFrame.setVisible(true);
 	}
 
+private class SurrenderPanel extends JPanel{
+	SurrenderPanel(){
+		//surrender button
+		JButton btnSurr = new JButton("Surrender");
+		btnSurr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newGame.gameOver();
+			}
+		});
+		this.add(btnSurr);
+		//restart button
+		JButton btnRest = new JButton("Restart");
+		btnRest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newGame = new chessGame();
+				boardPanel.drawBoard(newGame);
+			}
+		});
+		this.add(btnRest);
+		//timer label
+		JLabel timer = new JLabel("Current turn time in seconds: ");
+		this.add(timer);
+	}
+}
 	
 private class GravePanel extends JPanel{
 	
@@ -154,10 +186,10 @@ private class TilePanel extends JPanel{
 				        newGame.p[Board.selected] = newGame.holder;
 				        newGame.changeTurn();
 				        newGame.turnUp();
-				 	Board.selected = -1;
-				 	graveCount++;
-				 	newGame.p[tileID].hasMoved = true;
-				 	newGame.inCheck = checkForCheck();
+				 	    Board.selected = -1;
+				 	    graveCount++;
+				 	    newGame.p[tileID].hasMoved = true;
+				 	    newGame.inCheck = checkForCheck();
 				 }
 			 }
 			 
@@ -166,6 +198,8 @@ private class TilePanel extends JPanel{
 					 //invalid move deselect piece
 					 Board.selected = -1;
 				 }
+				 
+				 //move to empty
 				 else {
 				   for(int i = 0; i < 64; i++) {
 					   newGame.checkHolder[i] = newGame.p[i];
@@ -173,11 +207,13 @@ private class TilePanel extends JPanel{
 					newGame.holder = newGame.p[Board.selected];
 					newGame.p[Board.selected] = newGame.p[tileID];
 					newGame.p[tileID] = newGame.holder;
+					//is moving into check
 					if(checkForCheck()==newGame.turn) {
 						newGame.p[Board.selected] = newGame.checkHolder[Board.selected];
 						newGame.p[tileID] = newGame.checkHolder[tileID];
 						Board.selected = -1;
 					}
+					//is not moving into check
 					else {
 					    Board.selected = -1;
 						newGame.inCheck = -1;
@@ -189,6 +225,7 @@ private class TilePanel extends JPanel{
 			 SwingUtilities.invokeLater(new Runnable() {
 				 @Override
 				 public void run() {
+					 checkForMoves();
 					 boardPanel.drawBoard(newGame);
 				 }
 			 });
@@ -209,7 +246,8 @@ private class TilePanel extends JPanel{
 	
 	private void assignTileSprite() {
 		JLabel sprite = new JLabel();
-		sprite.setIcon(new ImageIcon("sprites\\"+newGame.p[this.tileID].getImageName()+".png"));
+		String img = ("sprites\\"+newGame.p[this.tileID].getImageName()+".png");
+		sprite.setIcon(new ImageIcon(img));
 		add(sprite);
 		validate();
 	}
@@ -354,21 +392,48 @@ private class TilePanel extends JPanel{
         for(int j = 0; j<64; j++) {
         	if(availableMove(j, foundB) && newGame.p[j].validMove(j, foundB) && j!=foundB 
         			&& newGame.p[j].getAlly() !=1) {
-        		System.out.println("Black is in check");
         		newGame.inCheck = 1;
         		return 1;
         	}
         	if(availableMove(j, foundW) && newGame.p[j].validMove(j, foundW) && j!=foundW 
         			&& newGame.p[j].getAlly() !=0) {
-        		System.out.println("White is in check");
         		newGame.inCheck = 0;
         		return 0;
            }
-        }
-        
-		return -1;		
-	}
+        }              
 		
-  }
+    	newGame.inCheck = -1;
+    	return -1;		
+	}
 	
+	private void checkForMoves() {
+		int availableMoves = 0;
+		for(int p = 0; p<64; p++) {
+			newGame.checkHolder[p] = newGame.p[p];
+		}
+		for(int p = 0; p<64; p++) {
+			
+			for(int j = 0; j<64; j++) {
+				newGame.holder = newGame.p[j];
+			    newGame.p[j] = newGame.p[p];
+			    newGame.p[p]= newGame.holder;
+			    
+				if(availableMove(p, j) == true && newGame.p[p].validMove(p, j) == true 
+						&& newGame.p[p].getAlly() == newGame.turn && newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
+				   
+				   if(checkForCheck()==-1) {
+				    availableMoves++;		
+				   }
+				  
+			    }
+				newGame.p[j]= newGame.checkHolder[j];				
+				newGame.p[p]= newGame.checkHolder[p];
+			}
+		}
+
+		if(availableMoves == 0 ) {
+			newGame.gameOver();
+		}
+	}		
+  }	
 }

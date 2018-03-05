@@ -136,7 +136,7 @@ private class TilePanel extends JPanel{
 					  newGame.checkHolder[i] = newGame.p[i];
 					}
 				  newGame.holder = newGame.p[Board.selected];
-				  newGame.p[Board.selected] = newGame.p[tileID];
+				  newGame.p[Board.selected] = newGame.grave[graveCount];
 				  newGame.p[tileID] = newGame.holder;
 				  //piece is moving into check
 				  if(checkForCheck()==newGame.turn) {

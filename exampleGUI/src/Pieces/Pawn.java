@@ -1,11 +1,10 @@
 package Pieces;
 
 public class Pawn extends Piece{
-	
 	private boolean valid = false;
 	
 	public Pawn(int ally) {
-		setPieceType("Pawn")
+		setPieceType("Pawn");
 		hasMoved = false;
 		if(ally == 0) {
 			setAlly(0);
@@ -31,7 +30,9 @@ public class Pawn extends Piece{
 		   else if(product == -16 && hasMoved == false) {
 				valid = true;
 			}
-	        //taking
+	    //taking
+		   else if((product == -7 && start%8==7) || (product == -9 && start%8 == 0))
+				valid = false;	
 		   else if(product == -7 || product == -9) {
 			    valid = true;
 		}
@@ -44,6 +45,8 @@ public class Pawn extends Piece{
 				valid = true;
 			}
 			//taking
+			else if((product == 7 && start%8==0) || (product == 9 && start%8 == 7))
+				valid = false;
 			else if(product == 7 || product == 9) {
 				valid = true;
 			}

@@ -433,20 +433,23 @@ private class TilePanel extends JPanel{
 		for(int p = 0; p<64; p++) {
 			
 			for(int j = 0; j<64; j++) {
-				newGame.holder = newGame.p[j];
-			    newGame.p[j] = newGame.p[p];
-			    newGame.p[p]= newGame.holder;
-			    
+							    
 				if(availableMove(p, j) == true && newGame.p[p].validMove(p, j) == true 
-						&& newGame.p[p].getAlly() == newGame.turn && newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
+						&& newGame.p[p].getAlly() == newGame.turn 
+						&& newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
+					newGame.holder = newGame.p[j];
+				    newGame.p[j] = newGame.p[p];
+				    newGame.p[p]= newGame.holder;
 				   
 				   if(checkForCheck()==-1) {
-				    availableMoves++;		
+				    availableMoves++;	
+				    System.out.print(newGame.p[p].getName());
 				   }
+				   newGame.p[j]= newGame.checkHolder[j];				
+				   newGame.p[p]= newGame.checkHolder[p];
 				  
 			    }
-				newGame.p[j]= newGame.checkHolder[j];				
-				newGame.p[p]= newGame.checkHolder[p];
+				
 			}
 		}
 

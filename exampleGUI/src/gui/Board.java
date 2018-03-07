@@ -79,7 +79,7 @@ private class SurrenderPanel extends JPanel{
 		});
 		this.add(btnRest);
 		//timer label
-		JLabel time = new JLabel("Current turn time in seconds: "+Board.turnTime);
+		final JLabel time = new JLabel("Current turn time in seconds: "+Board.turnTime);
 		this.add(time);
 		Timer timer = new Timer();
        	TimerTask myTask = new TimerTask() {
@@ -150,12 +150,12 @@ private class TilePanel extends JPanel{
 	  addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
-			 if(newGame.turn == 1) {
+			if(newGame.turn == 1) {
 				 aiCheckForMoves();
 				 newGame.changeTurn();
 				 newGame.turnUp();
 			 }
-			 else if (Board.selected==-1) {
+			else if (Board.selected==-1) {
 				 //piece select
 				 if(newGame.p[tileID].getName() != null && 
 						 newGame.p[tileID].getAlly() == newGame.turn) {
@@ -443,7 +443,6 @@ private class TilePanel extends JPanel{
 				   
 				   if(checkForCheck()==-1) {
 				    availableMoves++;	
-				    System.out.print(newGame.p[p].getName());
 				   }
 				   newGame.p[j]= newGame.checkHolder[j];				
 				   newGame.p[p]= newGame.checkHolder[p];
@@ -459,28 +458,44 @@ private class TilePanel extends JPanel{
 		}
 	}
 	private boolean aiCheckForMoves() {
+		boolean returnValue = false;
 		for(int p = 0; p<64; p++) {
 			
 			for(int j = 0; j<64; j++) {
 				newGame.holder = newGame.p[j];
 			    newGame.p[j] = newGame.p[p];
 			    newGame.p[p]= newGame.holder;
-			    
+
 				if(availableMove(p, j) == true && newGame.p[p].validMove(p, j) == true 
-						&& newGame.p[p].getAlly() == newGame.turn && newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
+						&& newGame.p[p].getAlly() == newGame.turn && newGame.p[p].getAlly()!=newGame.p[j].getAlly()
+						) {
 				   
+				   if(newGame.p[j].getAlly()==0) {
+					   newGame.p[j] = newGame.grave[graveCount];
+					   if(checkForCheck()==-1) {
+						   grave.graveYardAdd(newGame.checkHolder[p].getName());
+						   graveCount++;
+						   newGame.p[j].hasMoved = true;
+						   Board.turnTime = 0;
+						   return true;
+					   }
+				   }
+					
 				   if(checkForCheck()==-1) {
-				    return true;
+					   Board.turnTime = 0;
+					   newGame.p[j].hasMoved = true;
+				       return true;
 				    
 				   }
 				  
 			    }
+				
 				newGame.p[j]= newGame.checkHolder[j];				
 				newGame.p[p]= newGame.checkHolder[p];
 
 			}
 		}
-       return false;
+       return returnValue;
 		
 	}
   }	

@@ -150,8 +150,12 @@ private class TilePanel extends JPanel{
 	  addMouseListener(new MouseAdapter() {
 		  @Override
 		  public void mousePressed(MouseEvent e) {
-			
-			if (Board.selected==-1) {
+			if(newGame.turn == 1) {
+				 aiCheckForMoves();
+				 newGame.changeTurn();
+				 newGame.turnUp();
+			 }
+			else if (Board.selected==-1) {
 				 //piece select
 				 if(newGame.p[tileID].getName() != null && 
 						 newGame.p[tileID].getAlly() == newGame.turn) {
@@ -257,11 +261,6 @@ private class TilePanel extends JPanel{
 		assignTileSprite();
 		validate();
 		repaint();
-		if(newGame.turn == 1) {
-			 aiCheckForMoves();
-			 newGame.changeTurn();
-			 newGame.turnUp();
-		 }
 		
 	}
 	
@@ -439,9 +438,17 @@ private class TilePanel extends JPanel{
 				if(availableMove(p, j) == true && newGame.p[p].validMove(p, j) == true 
 						&& newGame.p[p].getAlly() == newGame.turn 
 						&& newGame.p[p].getAlly()!=newGame.p[j].getAlly()) {
-					newGame.holder = newGame.p[j];
-				    newGame.p[j] = newGame.p[p];
-				    newGame.p[p]= newGame.holder;
+					if(newGame.p[p].getPieceType() == "King" 
+							&& newGame.p[p].getAlly()!=newGame.p[j].getAlly() &&newGame.p[j].getAlly()!=-1) {
+						newGame.p[j] = newGame.p[p]; 
+						newGame.p[p] = newGame.grave[graveCount];
+						
+					}
+					else {
+						newGame.holder = newGame.p[j];
+						newGame.p[j] = newGame.p[p];
+						newGame.p[p]= newGame.holder;
+					}
 				   
 				   if(checkForCheck()==-1) {
 				    availableMoves++;	
@@ -452,6 +459,7 @@ private class TilePanel extends JPanel{
 			    }
 				
 			}
+			
 		}
 
 		if(availableMoves == 0 ) {

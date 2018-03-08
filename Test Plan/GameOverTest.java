@@ -2,7 +2,13 @@ package chessGame;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +20,15 @@ class GameOverTest {
 			  winner = "Black";
 		    else
 			  winner = "White";
-		    System.out.println("Game over "+winner+" wins");
-		    JOptionPane.showMessageDialog(null, "Game over "+winner+" wins");
 		    return winner;
 		  }
+	 
+	 
 	
 	
 	@Test
 	void test() {
+		
 		turn = 1;
 		boolean whiteWins = false;
 		if(gameOver() == "White") {
@@ -42,6 +49,13 @@ class GameOverTest {
 			whiteWins = false;
 		}
 		assertEquals(false, whiteWins);
+		
+		//white wins
+		whiteWins = true;
+		JOptionPane.showMessageDialog(null, "End game?");
+			gameOver();
+		assertEquals(true, whiteWins);
+		
 		
 	}
 

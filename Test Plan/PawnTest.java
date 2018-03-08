@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import chessGame.chessGame;
+
 class PawnTest {
 
 	@Test
@@ -40,11 +42,49 @@ class PawnTest {
 			assertEquals(true, test1.validMove(6, 14));
 		}
 		
+		//testing for captures (white capture black)
+		chessGame newGame = new chessGame();
+		newGame.p[27].setImageName("BPawn");
+		newGame.p[34].setImageName("WPawn");
+		if(newGame.p[27].getImageName() == "BPawn" && newGame.p[34].getImageName() == "WPawn") {
+			assertEquals(true, test.validMove(34, 27));
+		}
+		
+		newGame.p[46].setImageName("WPawn");
+		newGame.p[37].setImageName("BPawn");
+		if(newGame.p[37].getImageName() == "BPawn" && newGame.p[46].getImageName() == "WPawn") {
+			assertEquals(true, test.validMove(46, 37));
+		}
+		//testing for captures (black capture white)
+		newGame.p[12].setImageName("BPawn");
+		newGame.p[19].setImageName("WPawn");
+		if(newGame.p[12].getImageName() == "BPawn" && newGame.p[19].getImageName() == "WPawn" && newGame.turn == 1) {
+			assertEquals(true, test.validMove(12, 19));
+			assertEquals(false, test.validMove(12, 5));
+			assertEquals(false, test.validMove(19, 12));
+			
+		}
+		
+		newGame.p[43].setImageName("BPawn");
+		newGame.p[50].setImageName("WPawn");
+		if(newGame.p[43].getImageName() == "BPawn" && newGame.p[50].getImageName() == "WPawn" && newGame.turn == 1) {
+			assertEquals(true, test.validMove(43, 50));
+			assertEquals(false, test.validMove(50,43));
+			assertEquals(false, test.validMove(43, 44));
+			
+		}
+		
+		
+		
+		
 		//negative tests
 		assertEquals(false, test.validMove(48, 49));
 		assertEquals(false, test.validMove(48, 47));
 		assertEquals(false, test.validMove(48, 39));
 		assertEquals(false, test.validMove(48, 57));
+		
+		
+		
 	
 	}
 }

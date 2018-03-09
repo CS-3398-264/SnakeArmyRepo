@@ -72,6 +72,7 @@ private class SurrenderPanel extends JPanel{
 		JButton btnRest = new JButton("Restart");
 		btnRest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				graveCount = 0;
 				newGame = new chessGame();
 				boardPanel.drawBoard(newGame);
 				Board.turnTime = 0;
